@@ -1,3 +1,4 @@
 // Global app controller
 import num from './test';
-console.log(`I'm imported ${num} form another module. Test call`);
+const x = 50;
+console.log(`I'm imported ${num} form another module. Test call ${x}`);
