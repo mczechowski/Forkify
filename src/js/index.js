@@ -27,8 +27,17 @@ const controlSearch = async () => {
     }
 }
 
+//All EventListeners
+
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault(); //don't reload page
     controlSearch();
 })
 
+elements.searchResPages.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-inline ')  //secet colsest element in current button class
+    
+    const goToPage = parseInt(btn.dataset.goto, 10);
+    searchView.clearResult();
+    searchView.renderResults(state.search.result, goToPage); 
+})
