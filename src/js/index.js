@@ -1,9 +1,12 @@
 import Search from './models/Search';
+import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
 import { elements, renderLoader, clearLoader } from './views/base';
+
 //Global search
 const state = {};
 
+/** --------------------- SEARCH CONTROLLER ------------------------ */
 const controlSearch = async () => {
     // 1. get the query from the view
     const query = searchView.getInput();
@@ -41,3 +44,9 @@ elements.searchResPages.addEventListener('click', e => {
     searchView.clearResult();
     searchView.renderResults(state.search.result, goToPage); 
 })
+
+/** --------------------- RECIPE CONTROLLER ------------------------ */
+const convertUri = encodeURIComponent("http://www.edamam.com/ontologies/edamam.owl#recipe_a7d58871fda455844753aace394440ae")
+const r = new Recipe(convertUri)
+r.getRecipe();
+console.log(r);
