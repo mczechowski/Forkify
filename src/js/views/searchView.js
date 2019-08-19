@@ -31,7 +31,7 @@ const limitRecipeTitle = (label, limit = 18) => {
 const renderRecipe = recipe => {
     const markup = `
     <li>
-        <a class="results__link" href="${recipe.shareAs}">
+        <a class="results__link" href="#${recipe.uri}">
             <figure class="results__fig">
                 <img src="${recipe.image}" alt="${recipe.image}">
             </figure>

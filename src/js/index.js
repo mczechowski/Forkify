@@ -22,11 +22,16 @@ const controlSearch = async () => {
         renderLoader(elements.searchRes);
 
         // 4. Search for recepies
-        await state.search.getResults(); //wait for result
+        try {
+            await state.search.getResults(); //wait for result
 
-        // 5. Render results on UT
-        clearLoader();
-        searchView.renderResults(state.search.result)
+            // 5. Render results on UT
+            clearLoader();
+            searchView.renderResults(state.search.result)
+        } catch (err) {
+            alert('Something wrong with the search...')
+            clearLoader();
+        }
     }
 }
 
@@ -39,14 +44,39 @@ elements.searchForm.addEventListener('submit', e => {
 
 elements.searchResPages.addEventListener('click', e => {
     const btn = e.target.closest('.btn-inline ')  //secet colsest element in current button class
-    
+
     const goToPage = parseInt(btn.dataset.goto, 10);
     searchView.clearResult();
-    searchView.renderResults(state.search.result, goToPage); 
+    searchView.renderResults(state.search.result, goToPage);
 })
 
 /** --------------------- RECIPE CONTROLLER ------------------------ */
-const convertUri = encodeURIComponent("http://www.edamam.com/ontologies/edamam.owl#recipe_a7d58871fda455844753aace394440ae")
-const r = new Recipe(convertUri)
-r.getRecipe();
-console.log(r);
+const controlRecipe = async () => {
+    // Get ID from URL
+    const uriHash = window.location.hash.replace('#', '');
+    const id = encodeURIComponent(uriHash)
+    console.log(id);
+
+    if (id) {
+        //Prepate UI for changers
+
+        //Create new recipe object
+        state.recipe = new Recipe(id)
+
+        try {
+            //Get recipe data and parse ingredients
+            await state.recipe.getRecipe();
+            state.recipe.parseIngredients();
+            //Calculate time
+            state.recipe.calcTime();
+            //Render recipe
+            console.log(state.recipe);
+        } catch (err) {
+            alert('Error processing recipe!');
+        }
+    }
+}
+
+// window.addEventListener('hashchange', controlRecipe);
+// window.addEventListener('load', controlRecipe);
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
