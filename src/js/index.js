@@ -63,6 +63,9 @@ const controlRecipe = async () => {
         recipeView.clearRecipe();
         renderLoader(elements.recipe)
 
+        //Highlight selcted search item
+        if (state.search) searchView.highlightSelected(uriHash);
+
         //Create new recipe object
         state.recipe = new Recipe(id)
 
@@ -79,7 +82,7 @@ const controlRecipe = async () => {
             recipeView.renderRecipe(state.recipe);
 
         } catch (err) {
-            alert('Error processing recipe!');
+            alert('Error processing recipe!  index.js file');
         }
     }
 }
@@ -87,3 +90,18 @@ const controlRecipe = async () => {
 // window.addEventListener('hashchange', controlRecipe);
 // window.addEventListener('load', controlRecipe);
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+//Handling recipe button clicks
+elements.recipe.addEventListener('click', e => {
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+        //decrease btn is clicked
+        if (state.recipe.servings > 1) {
+            state.recipe.updateServings('dec');
+            recipeView.updateServingsIngredients(state.recipe);
+        }
+    } else if (e.target.matches('.btn-increase, .btn-increase *')) {
+        //increase btn is clicked
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+})
