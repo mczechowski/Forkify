@@ -10,7 +10,6 @@ import Likes from './models/Likes';
 
 //Global search
 const state = {};
-window.state = state;
 
 /** --------------------- SEARCH CONTROLLER ------------------------ */
 const controlSearch = async () => {
@@ -194,5 +193,3 @@ elements.recipe.addEventListener('click', e => {
         controlLike();
     }
 });
-
-window.l = new List();
