@@ -18,8 +18,12 @@ export const highlightSelected = id => {
     resultsArr.forEach(el => {
         el.classList.remove('results__link--active');
     });
-    document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
-}
+
+    const inList = resultsArr.includes(el => { el.getAttribute('href') === `#${id}` })
+
+    if (inList)
+        document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active');
+};
 
 const limitRecipeTitle = (label, limit = 18) => {
     const newLabel = [];
